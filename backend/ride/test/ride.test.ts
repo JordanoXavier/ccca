@@ -1,3 +1,4 @@
+import { get } from "http";
 import { signup } from "../src/account";
 import { getRide, requestRide } from "../src/ride";
 
@@ -18,6 +19,7 @@ test("Deve criar uma corrida", async function () {
     };
     const rideOutput = await requestRide(rideInput);
     const getRideOutput = await getRide(rideOutput.ride_id);
+    console.log(getRideOutput)
 
     expect(rideOutput.ride_id).toBeDefined();
     expect(getRideOutput.passenger?.account_id).toBe(passengerOutput.accountId);
