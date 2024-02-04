@@ -19,7 +19,6 @@ test("Deve criar uma corrida", async function () {
     };
     const rideOutput = await requestRide(rideInput);
     const getRideOutput = await getRide(rideOutput.ride_id);
-    console.log(getRideOutput)
 
     expect(rideOutput.ride_id).toBeDefined();
     expect(getRideOutput.passenger?.account_id).toBe(passengerOutput.accountId);
@@ -47,4 +46,27 @@ test("Não deve criar uma corrida se o account_id não for de um passageiro", as
     await expect(() => requestRide(rideInput)).rejects.toThrow(new Error("account is not a passenger"));
 });
 
-// * deve verificar se já não existe uma corrida do passageiro em status diferente de "completed"
+test("Não deve criar uma corrida se já houver uma corrida em andamento", async function () {
+    const passengerInput = {
+        name: "John Doe",
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: "88946105003",
+        isPassenger: true,
+        password: "admin123"
+    };
+    const passengerOutput = await signup(passengerInput);
+
+    const rideInput = {
+        passenger_id: passengerOutput.accountId,
+        position: { lat: 0, long: 0 },
+        destination: { lat: 10, long: 10 }
+    };
+    await requestRide(rideInput);
+
+    const secondRideInput = {
+        passenger_id: passengerOutput.accountId,
+        position: { lat: 0, long: 0 },
+        destination: { lat: 10, long: 10 }
+    };
+    await expect(() => requestRide(secondRideInput)).rejects.toThrow(new Error("ride in progress found"));
+});  
