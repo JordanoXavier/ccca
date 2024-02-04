@@ -1,6 +1,5 @@
 import pgp from "pg-promise";
 import crypto from "crypto";
-import { getAccount } from "./account";
 
 interface position {
     lat: number;
@@ -10,7 +9,7 @@ interface position {
 export async function requestRide({passenger_id, position, destination}: {passenger_id: string, position: position, destination: position}) {
     const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
 	try {
-        const account = await getAccount(passenger_id);
+        const [account] = await connection.query("select * from cccat14.account where account_id = $1", [passenger_id])
         if (!account.is_passenger) throw new Error("account is not a passenger");
     
         const [ride] = await connection.query("select * from cccat14.ride where passenger_id = $1 and status != 'completed'", [passenger_id]);
