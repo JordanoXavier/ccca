@@ -65,6 +65,32 @@ test("Não deve criar conta com CPF inválido", async function () {
 	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
 });
 
+test("Não deve criar conta sem CPF", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+});
+
+test("Não deve criar conta com CPF com todos dígitos iguais", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "11111111111",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+});
+
 test("Não deve criar conta com e-mail inválido", async function () {
 	const inputSignup = {
 		name: "John Doe",
