@@ -26,7 +26,7 @@ test("Deve criar a conta de motorista", async function () {
 		name: "John Doe",
 		email: `john.doe${Math.random()}@gmail.com`,
 		cpf: "55335504021",
-		isPassenger: false,
+		isDriver: true,
 		password: "admin123",
 		carPlate: "ABC1234",
 	};
@@ -38,3 +38,70 @@ test("Deve criar a conta de motorista", async function () {
 	expect(outputGetAccount.name).toBe(inputSignup.name);
 	expect(outputGetAccount.car_plate).toBe(inputSignup.carPlate)
 });
+
+test("Não deve criar a conta de motorista com placa de carro inválida", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "55335504021",
+		isDriver: true,
+		password: "admin123",
+		carPlate: "AB11234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid car plate"));
+});
+
+test("Não deve criar conta com CPF inválido", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "aaaaaa",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+});
+
+test("Não deve criar conta com e-mail inválido", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}gmail.com`,
+		cpf: "55335504021",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid email"));
+});
+
+test("Não deve criar conta com nome inválido", async function () {
+	const inputSignup = {
+		name: "John",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "55335504021",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid name"));
+});
+
+test("Não deve criar conta com e-mail já existente", async function () {
+	const inputSignup = {
+		name: "John Doe",
+		email: `john.doe${Math.random()}@gmail.com`,
+		cpf: "55335504021",
+		isPassenger: true,
+		password: "admin123",
+		carPlate: "ABC1234",
+	};
+
+	await signup(inputSignup);
+	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("already exists"));
+});
+
