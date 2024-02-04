@@ -1,24 +1,23 @@
-import { signup } from "../src/main";
+import { getAccount, signup } from "../src/main";
 
 test.each([
-	"97456321558",
-	"71428793860",
-	"87748248800"
-])("Deve criar uma conta para o passageiro", async function (cpf: string) {
-	// given
+	"88946105003",
+	"55335504021",
+	"58170101000"
+])("Deve criar a conta do passageiro", async function (cpf: string) {
 	const inputSignup = {
 		name: "John Doe",
 		email: `john.doe${Math.random()}@gmail.com`,
 		cpf,
 		isPassenger: true,
-		password: "123456"
+		password: "admin123"
 	};
-	// when
+
 	const outputSignup = await signup(inputSignup);
-	// const outputGetAccount = await getAccount(outputSignup.accountId);
-	// then
+	const outputGetAccount = await getAccount(outputSignup.accountId);
+
 	expect(outputSignup.accountId).toBeDefined();
-	// expect(outputGetAccount.name).toBe(inputSignup.name);
-	// expect(outputGetAccount.email).toBe(inputSignup.email);
+	expect(outputGetAccount.name).toBe(inputSignup.name);
+	expect(outputGetAccount.email).toBe(inputSignup.email);
 });
 
