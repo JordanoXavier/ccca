@@ -16,7 +16,8 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "test": "yarn jest --watch"
+    "test": "yarn jest",
+    "docker": "docker-compose up -d"
   },
   "devDependencies": {
     "@types/node": "^20.5.6"
