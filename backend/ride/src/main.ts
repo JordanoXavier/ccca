@@ -64,8 +64,7 @@ export async function signup (input: any): Promise<any> {
 									accountId: id
 								};
 							} else {
-								// invalid car plate
-								return -5;
+								throw new Error("invalid car plate");
 							}
 						} else {
 							await connection.query("insert into cccat14.account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [id, input.name, input.email, input.cpf, input.carPlate, !!input.isPassenger, !!input.isDriver]);
@@ -74,20 +73,16 @@ export async function signup (input: any): Promise<any> {
 							};
 						}
 					} else {
-						// invalid cpf
-						return -1;
+						throw new Error("invalid cpf");
 					}
 				} else {
-					// invalid email
-					return -2;
+					throw new Error("invalid email");
 				}
 			} else {
-				// invalid name
-				return -3;
+				throw new Error("invalid name");
 			}
 		} else {
-			// already exists
-			return -4;
+			throw new Error("already exists");
 		}
 	} finally {
 		await connection.$pool.end();
