@@ -1,5 +1,6 @@
 import pgp from "pg-promise";
 import crypto from "crypto";
+import { account } from "./account";
 
 interface position {
     lat: number;
@@ -25,9 +26,28 @@ export async function requestRide({passenger_id, position, destination}: {passen
     }
 }
 
-export async function getRide(rideId: string) {
-    // * deve retornar todas as informações da ride juntamente com os dados do passageiro e do motorista (inicialmente null, definido após o use case de AcceptRide)
-    const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+export interface ride {
+    ride_id: string;
+    passenger_id: string;
+    status: string;
+    date: Date;
+    from_lat: number;
+    from_long: number;
+    to_lat: number;
+    to_long: number;
+    passenger?: account;
+    driver?: account;
+}
 
-    return { };
+export async function getRide(rideId: string): Promise<ride>{
+    const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+    const [ride] = await connection.query("select * from cccat14.ride where ride_id = $1", [rideId]);
+    const [passenger] = await connection.query("select * from cccat14.account where account_id = $1", [ride.passenger_id]);
+
+    await connection.$pool.end();
+    return {
+        ...ride,
+        passenger: passenger,
+        driver: null
+    };
 }

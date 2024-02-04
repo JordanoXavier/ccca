@@ -67,7 +67,7 @@ function extractCheckDigit (cpf: string) {
 	return cpf.slice(9);
 }
 
-interface account {
+export interface account {
 	account_id: string;
 	name: string;
 	email: string;

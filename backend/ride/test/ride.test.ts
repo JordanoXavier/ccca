@@ -4,7 +4,7 @@ import { getRide, requestRide } from "../src/ride";
 // * deve verificar se o account_id tem is_passenger true
 // * deve verificar se já não existe uma corrida do passageiro em status diferente de "completed", se existir lançar um erro
 
-test("Deve criar uma corrida com o status requested", async function () {
+test("Deve criar uma corrida", async function () {
     const passengerInput = {
 		name: "John Doe",
 		email: `john.doe${Math.random()}@gmail.com`,
@@ -23,6 +23,7 @@ test("Deve criar uma corrida com o status requested", async function () {
     const getRideOutput = await getRide(rideOutput.ride_id);
 
     expect(rideOutput.ride_id).toBeDefined();
-    // expect(getRideOutput.passenger_id).toBe(passengerOutput.accountId);
-    // expect(getRideOutput.status).toBe("requested");
+    expect(getRideOutput.passenger?.account_id).toBe(passengerOutput.accountId);
+    expect(getRideOutput.driver).toBe(null);
+    expect(getRideOutput.status).toBe("requested");
 });
