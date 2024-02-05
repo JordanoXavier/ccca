@@ -1,15 +1,15 @@
 import express, { Request, Response } from 'express';
-import { getAccount, signup } from '../controllers/account';
+import { getRide, requestRide } from '../controllers/ride';
 
 const router = express.Router();
 
 router.post('/', async (req: Request, res: Response) => {
-    const result = await signup(req.body);
+    const result = await requestRide(req.body);
     res.send(result);
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-    const account = await getAccount(req.params.id);
+    const account = await getRide(req.params.id);
     res.send(account);
 });
 
