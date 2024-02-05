@@ -1,4 +1,4 @@
-import { getAccount, signup } from "../src/account";
+import { getAccount, signup } from "../src/controllers/account";
 
 test.each([
 	"88946105003",
