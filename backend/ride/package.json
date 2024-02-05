@@ -17,7 +17,10 @@
   },
   "scripts": {
     "test": "yarn jest",
-    "docker": "docker-compose up -d"
+    "docker": "docker-compose up -d",
+    "dev": "npx nodemon src/server.ts -e ts",
+    "compile": "npx tsc",
+    "start": "node ./dist/server.js"
   },
   "devDependencies": {
     "@types/node": "^20.5.6"

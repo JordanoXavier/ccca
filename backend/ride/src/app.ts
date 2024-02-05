@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import "reflect-metadata";
 import accountRouter from './router/accountRouter';
 
 const app = express();
