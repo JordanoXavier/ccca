@@ -1,5 +1,5 @@
-import { getAccount } from "../src/account/getAccount";
-import { signup } from "../src/account/signup";
+import { getAccount } from "../src/useCases/account/getAccount";
+import { signup } from "../src/useCases/account/signup";
 
 test.each([
 	"88946105003",

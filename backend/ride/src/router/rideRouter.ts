@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
-import { getRide, requestRide } from '../controllers/ride';
+import { requestRide } from '../useCases/ride/requestRide';
+import { getRide } from '../useCases/ride/getRide';
 
 const router = express.Router();
 

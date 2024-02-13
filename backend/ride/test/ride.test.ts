@@ -1,5 +1,6 @@
-import { signup } from "../src/account/signup";
-import { getRide, requestRide } from "../src/controllers/ride";
+import { signup } from "../src/useCases/account/signup";
+import { getRide } from "../src/useCases/ride/getRide";
+import { requestRide } from "../src/useCases/ride/requestRide";
 
 test("Deve criar uma corrida", async function () {
     const passengerInput = {

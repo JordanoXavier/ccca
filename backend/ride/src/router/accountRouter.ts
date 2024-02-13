@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { signup } from '../account/signup';
-import { getAccount } from '../account/getAccount';
+import { signup } from '../useCases/account/signup';
+import { getAccount } from '../useCases/account/getAccount';
 
 const router = express.Router();
 
