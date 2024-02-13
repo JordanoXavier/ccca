@@ -1,5 +1,12 @@
-import { getAccount } from "../src/useCases/account/getAccount";
+import AccountRepositoryDatabase from "../src/repositories/account/AccountRepositotyDatabase";
+import GetAccount from "../src/useCases/account/GetAccount";
 import { signup } from "../src/useCases/account/signup";
+
+let getAccount: GetAccount;
+beforeEach(async () => {
+    const accountRepository = new AccountRepositoryDatabase();
+    getAccount = new GetAccount(accountRepository);
+});
 
 test.each([
 	"88946105003",
@@ -15,7 +22,8 @@ test.each([
 	};
 
 	const outputSignup = await signup(inputSignup);
-	const outputGetAccount = await getAccount(outputSignup.accountId);
+	
+	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
 	expect(outputSignup.accountId).toBeDefined();
 	expect(outputGetAccount.name).toBe(inputSignup.name);
@@ -33,7 +41,7 @@ test("Deve criar a conta de motorista", async function () {
 	};
 
 	const outputSignup = await signup(inputSignup);
-	const outputGetAccount = await getAccount(outputSignup.accountId);
+	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
 	expect(outputSignup.accountId).toBeDefined();
 	expect(outputGetAccount.name).toBe(inputSignup.name);

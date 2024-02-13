@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { signup } from '../useCases/account/signup';
-import { getAccount } from '../useCases/account/getAccount';
+import AccountRepositoryDatabase from '../repositories/account/AccountRepositotyDatabase';
+import GetAccount from '../useCases/account/GetAccount';
 
 const router = express.Router();
 
@@ -10,7 +11,9 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-    const account = await getAccount(req.params.id);
+    const accountRepository = new AccountRepositoryDatabase();
+    const getAccount = new GetAccount(accountRepository);
+    const account = await getAccount.execute(req.params.id);
     res.send(account);
 });
 

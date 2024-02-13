@@ -1,5 +1,5 @@
 import pgp from "pg-promise";
-import { account } from "../account/getAccount";
+import { Account } from "../../repositories/account/AccountRepository";
 
 export interface ride {
     ride_id: string;
@@ -10,8 +10,8 @@ export interface ride {
     from_long: number;
     to_lat: number;
     to_long: number;
-    passenger?: account;
-    driver?: account;
+    passenger?: Account;
+    driver?: Account;
 }
 
 export async function getRide(rideId: string): Promise<ride>{
