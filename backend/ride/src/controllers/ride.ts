@@ -1,6 +1,6 @@
 import pgp from "pg-promise";
 import crypto from "crypto";
-import { account } from "./account";
+import { account } from "../account/getAccount";
 
 interface position {
     lat: number;

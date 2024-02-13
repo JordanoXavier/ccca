@@ -1,4 +1,4 @@
-import { signup } from "../src/controllers/account";
+import { signup } from "../src/account/signup";
 import { getRide, requestRide } from "../src/controllers/ride";
 
 test("Deve criar uma corrida", async function () {
