@@ -30,27 +30,9 @@ export default class RideRepositoryDatabase implements RideRepository {
 
     async getByPassengerId (accountId: string): Promise<Ride>{
         const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
-        const [result] = await connection.query(`
-            SELECT r.*, a.* 
-            FROM cccat14.ride r
-            JOIN cccat14.account a ON r.passenger_id = a.account_id
-            WHERE r.passenger_id = $1
-        `, [accountId]);
-    
+        const [ride] = await connection.query("select * from cccat14.ride where passenger_id = $1 and status != 'completed'", [accountId]);
         await connection.$pool.end();
-        return {
-            ...result,
-            passenger: {
-                account_id: result.account_id,
-                name: result.name,
-                email: result.email,
-                cpf: result.cpf,
-                car_plate: result.car_plate,
-                is_passenger: result.is_passenger,
-                is_driver: result.is_driver
-            },
-            driver: null
-        };
+        return ride;
     }
 
     async save (ride: Ride): Promise<void>{
