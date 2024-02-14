@@ -1,11 +1,13 @@
 import AccountRepositoryDatabase from "../src/repositories/account/AccountRepositotyDatabase";
 import GetAccount from "../src/useCases/account/GetAccount";
-import { signup } from "../src/useCases/account/signup";
+import Signup from "../src/useCases/account/Signup";
 
 let getAccount: GetAccount;
+let signup: Signup;
+const accountRepository = new AccountRepositoryDatabase();
 beforeEach(async () => {
-    const accountRepository = new AccountRepositoryDatabase();
     getAccount = new GetAccount(accountRepository);
+	signup = new Signup(accountRepository);
 });
 
 test.each([
@@ -21,7 +23,7 @@ test.each([
 		password: "admin123"
 	};
 
-	const outputSignup = await signup(inputSignup);
+	const outputSignup = await signup.execute(inputSignup);
 	
 	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
@@ -40,7 +42,7 @@ test("Deve criar a conta de motorista", async function () {
 		carPlate: "ABC1234",
 	};
 
-	const outputSignup = await signup(inputSignup);
+	const outputSignup = await signup.execute(inputSignup);
 	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
 	expect(outputSignup.accountId).toBeDefined();
@@ -58,7 +60,7 @@ test("Não deve criar a conta de motorista com placa de carro inválida", async 
 		carPlate: "AB11234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid car plate"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid car plate"));
 });
 
 test("Não deve criar conta com CPF inválido", async function () {
@@ -71,7 +73,7 @@ test("Não deve criar conta com CPF inválido", async function () {
 		carPlate: "ABC1234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
 });
 
 test("Não deve criar conta sem CPF", async function () {
@@ -84,7 +86,7 @@ test("Não deve criar conta sem CPF", async function () {
 		carPlate: "ABC1234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
 });
 
 test("Não deve criar conta com CPF com todos dígitos iguais", async function () {
@@ -97,7 +99,7 @@ test("Não deve criar conta com CPF com todos dígitos iguais", async function (
 		carPlate: "ABC1234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid cpf"));
 });
 
 test("Não deve criar conta com e-mail inválido", async function () {
@@ -110,7 +112,7 @@ test("Não deve criar conta com e-mail inválido", async function () {
 		carPlate: "ABC1234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid email"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid email"));
 });
 
 test("Não deve criar conta com nome inválido", async function () {
@@ -123,7 +125,7 @@ test("Não deve criar conta com nome inválido", async function () {
 		carPlate: "ABC1234",
 	};
 
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("invalid name"));
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("invalid name"));
 });
 
 test("Não deve criar conta com e-mail já existente", async function () {
@@ -136,7 +138,7 @@ test("Não deve criar conta com e-mail já existente", async function () {
 		carPlate: "ABC1234",
 	};
 
-	await signup(inputSignup);
-	await expect(() => signup(inputSignup)).rejects.toThrow(new Error("already exists"));
+	await signup.execute(inputSignup);
+	await expect(() => signup.execute(inputSignup)).rejects.toThrow(new Error("already exists"));
 });
 
