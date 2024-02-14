@@ -9,22 +9,17 @@ export default class Signup {
 	}
 	
 	async execute (input: any): Promise<any> {
-		const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
-		try {
-			const id = crypto.randomUUID();
-			const [existentAccount] = await connection.query("select * from cccat14.account where email = $1", [input.email]);
-			if (existentAccount) throw new Error("already exists");
-			if (!this.validateName(input.name)) throw new Error("invalid name");
-			if (!this.validateEmail(input.email)) throw new Error("invalid email");
-			if (!validateCpf(input.cpf)) throw new Error("invalid cpf");
-			if (input.isDriver && !this.validateCarPlate(input.carPlate)) throw new Error("invalid car plate");
+		const account = await this.accountRepository.getByEmail(input.email);
+		if (account) throw new Error("already exists");
+		if (!this.validateName(input.name)) throw new Error("invalid name");
+		if (!this.validateEmail(input.email)) throw new Error("invalid email");
+		if (!validateCpf(input.cpf)) throw new Error("invalid cpf");
+		if (input.isDriver && !this.validateCarPlate(input.carPlate)) throw new Error("invalid car plate");
+			
+		const id = crypto.randomUUID();
+		await this.accountRepository.save({ accountId: id, name: input.name, email: input.email, cpf: input.cpf, carPlate: input.carPlate, isPassenger: !!input.isPassenger, isDriver: !!input.isDriver });
 	
-			await this.accountRepository.save({ accountId: id, name: input.name, email: input.email, cpf: input.cpf, carPlate: input.carPlate, isPassenger: !!input.isPassenger, isDriver: !!input.isDriver });
-	
-			return { accountId: id };
-		} finally {
-			await connection.$pool.end();
-		}
+		return { accountId: id };
 	}
 
 	private validateName (str: string) {

@@ -1,6 +1,7 @@
 export default interface AccountRepository  {
 	save (account: any): Promise<void>;
-	getById (accountId: string): Promise<any>;
+	getById (accountId: string): Promise<Account>;
+	getByEmail (email: string): Promise<Account>;
 }
 
 export interface Account {

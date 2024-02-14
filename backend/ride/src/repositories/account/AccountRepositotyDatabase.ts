@@ -15,4 +15,11 @@ export default class AccountRepositoryDatabase implements AccountRepository {
         await connection.$pool.end();
         return account;
     }
+
+    async getByEmail (email: string) {
+		const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+		const [account] = await connection.query("select * from cccat14.account where email = $1", [email]);
+		await connection.$pool.end();
+		return account;
+	}
 }
