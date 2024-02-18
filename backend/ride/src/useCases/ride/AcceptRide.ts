@@ -9,7 +9,7 @@ export default class AcceptRide {
         const account = await this.accountRepository.getById(driver_id);
         if (!account.is_driver) throw new Error("account is not a driver");
     
-        const ride = await this.rideRepository.getByPassengerId(ride_id);
+        const ride = await this.rideRepository.getById(ride_id);
         if (!ride) throw new Error("ride not found");
         if (ride.status !== "requested") throw new Error("ride is not requested");
 
