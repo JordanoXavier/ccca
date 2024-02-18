@@ -19,6 +19,6 @@ export default class AcceptRide {
 
         ride.driver = account;
         ride.status = "accepted";
-        await this.rideRepository.save(ride);
+        await this.rideRepository.updateRide(ride);
 	}
 }

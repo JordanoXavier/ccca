@@ -20,7 +20,7 @@ export default class RequestRide {
         if (ride && ride.status !== "completed") throw new Error("ride in progress found");
     
         const id = crypto.randomUUID();
-        await this.rideRepository.save({ ride_id: id, passenger_id, status: "requested", date: new Date(), from_lat: position.lat, from_long: position.long, to_lat: destination.lat, to_long: destination.long });
+        await this.rideRepository.addRide({ ride_id: id, passenger_id, status: "requested", date: new Date(), from_lat: position.lat, from_long: position.long, to_lat: destination.lat, to_long: destination.long });
     
         return { ride_id: id };
 	}

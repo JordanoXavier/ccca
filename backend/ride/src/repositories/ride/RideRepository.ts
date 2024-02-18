@@ -4,7 +4,8 @@ export default interface RideRepository  {
     listByDriverId(driver_id: string): Promise<Ride[]>;
 	getById (rideId: string): Promise<Ride>;
     getByPassengerId (accountId: string): Promise<Ride>;
-    save (ride: Ride): Promise<void>;
+    addRide (ride: Ride): Promise<void>;
+    updateRide (ride: Ride): Promise<void>;
 }
 
 export interface Ride {
