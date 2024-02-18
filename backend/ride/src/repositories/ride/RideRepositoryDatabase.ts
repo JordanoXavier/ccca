@@ -3,6 +3,17 @@ import RideRepository, { Ride } from "./RideRepository";
 
 export default class RideRepositoryDatabase implements RideRepository {
 
+    async listByDriverId (driver_id: string): Promise<Ride[]>{
+        const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+        const rides = await connection.query(`
+            SELECT r.* 
+            FROM cccat14.ride r
+            WHERE r.driver_id = $1
+        `, [driver_id]);
+        await connection.$pool.end();
+        return rides;
+    }
+
 	async getById (rideId: string): Promise<Ride>{
         const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
         const [result] = await connection.query(`

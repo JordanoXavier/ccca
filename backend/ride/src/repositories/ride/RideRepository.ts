@@ -1,6 +1,7 @@
 import { Account } from "../account/AccountRepository";
 
 export default interface RideRepository  {
+    listByDriverId(driver_id: string): Promise<Ride[]>;
 	getById (rideId: string): Promise<Ride>;
     getByPassengerId (accountId: string): Promise<Ride>;
     save (ride: Ride): Promise<void>;
