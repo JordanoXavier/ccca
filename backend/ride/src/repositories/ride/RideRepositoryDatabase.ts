@@ -17,25 +17,37 @@ export default class RideRepositoryDatabase implements RideRepository {
 	async getById (rideId: string): Promise<Ride>{
         const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
         const [result] = await connection.query(`
-            SELECT r.*, a.* 
+            SELECT r.*, 
+                   p.account_id as p_account_id, p.name as p_name, p.email as p_email, p.cpf as p_cpf, p.car_plate as p_car_plate, p.is_passenger as p_is_passenger, p.is_driver as p_is_driver,
+                   d.account_id as d_account_id, d.name as d_name, d.email as d_email, d.cpf as d_cpf, d.car_plate as d_car_plate, d.is_passenger as d_is_passenger, d.is_driver as d_is_driver
             FROM cccat14.ride r
-            JOIN cccat14.account a ON r.passenger_id = a.account_id
+            JOIN cccat14.account p ON r.passenger_id = p.account_id
+            LEFT JOIN cccat14.account d ON r.driver_id = d.account_id
             WHERE r.ride_id = $1
         `, [rideId]);
     
         await connection.$pool.end();
+    
         return {
             ...result,
             passenger: {
-                account_id: result.account_id,
-                name: result.name,
-                email: result.email,
-                cpf: result.cpf,
-                car_plate: result.car_plate,
-                is_passenger: result.is_passenger,
-                is_driver: result.is_driver
+                account_id: result.p_account_id,
+                name: result.p_name,
+                email: result.p_email,
+                cpf: result.p_cpf,
+                car_plate: result.p_car_plate,
+                is_passenger: result.p_is_passenger,
+                is_driver: result.p_is_driver
             },
-            driver: null
+            driver: result.d_account_id ? {
+                account_id: result.d_account_id,
+                name: result.d_name,
+                email: result.d_email,
+                cpf: result.d_cpf,
+                car_plate: result.d_car_plate,
+                is_passenger: result.d_is_passenger,
+                is_driver: result.d_is_driver
+            } : null
         };
     }
 
