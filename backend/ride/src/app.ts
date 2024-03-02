@@ -1,15 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import account from './infra/controllers/accountController';
 import ride from './infra/controllers/rideController';
+import ExpressAdapter from './infra/http/ExpressAdapter';
 
-const app = express();
-app.use(express.json());
+const app = new ExpressAdapter();
  
-app.use("/account", account);
-app.use("/ride", ride);
- 
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).send(error.message);
-})
+app.register("/account", account);
+app.register("/ride", ride);
  
 export default app;
