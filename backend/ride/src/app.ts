@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
-import account from './controllers/accountController';
-import ride from './controllers/rideController';
+import account from './infra/controllers/accountController';
+import ride from './infra/controllers/rideController';
 
 const app = express();
 app.use(express.json());

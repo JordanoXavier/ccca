@@ -1,6 +1,6 @@
-import AccountRepositoryDatabase from "../src/repositories/account/AccountRepositotyDatabase";
-import GetAccount from "../src/useCases/account/GetAccount";
-import Signup from "../src/useCases/account/Signup";
+import AccountRepositoryDatabase from "../src/infra/repositories/account/AccountRepositotyDatabase";
+import GetAccount from "../src/useCases/account/getAccount";
+import Signup from "../src/useCases/account/signup";
 
 let getAccount: GetAccount;
 let signup: Signup;

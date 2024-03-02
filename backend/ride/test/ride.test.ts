@@ -1,9 +1,9 @@
-import AccountRepositoryDatabase from "../src/repositories/account/AccountRepositotyDatabase";
-import RideRepositoryDatabase from "../src/repositories/ride/RideRepositoryDatabase";
-import Signup from "../src/useCases/account/Signup";
+import AccountRepositoryDatabase from "../src/infra/repositories/account/AccountRepositotyDatabase";
+import RideRepositoryDatabase from "../src/infra/repositories/ride/RideRepositoryDatabase";
+import Signup from "../src/useCases/account/signup";
 import AcceptRide from "../src/useCases/ride/AcceptRide";
-import GetRide from "../src/useCases/ride/GetRide";
-import RequestRide from "../src/useCases/ride/RequestRide";
+import GetRide from "../src/useCases/ride/getRide";
+import RequestRide from "../src/useCases/ride/requestRide";
 import StartRide from "../src/useCases/ride/StartRide";
 
 let signup: Signup;

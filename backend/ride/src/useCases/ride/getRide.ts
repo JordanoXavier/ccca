@@ -1,4 +1,4 @@
-import RideRepository, { Ride } from "../../repositories/ride/RideRepository";
+import RideRepository, { Ride } from "../../infra/repositories/ride/RideRepository";
 
 export default class GetRide {
 	constructor (private rideRepository: RideRepository) {

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import AccountRepositoryDatabase from '../repositories/account/AccountRepositotyDatabase';
-import GetAccount from '../useCases/account/GetAccount';
-import Signup from '../useCases/account/Signup';
+import GetAccount from '../../useCases/account/getAccount';
+import Signup from '../../useCases/account/signup'
 
 const router = express.Router();
 

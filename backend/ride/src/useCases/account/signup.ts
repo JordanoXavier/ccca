@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import pgp from "pg-promise";
 import { validateCpf } from "./validateCpf";
-import AccountRepository from "../../repositories/account/AccountRepository";
+import AccountRepository from "../../infra/repositories/account/AccountRepository";
 
 
 export default class Signup {

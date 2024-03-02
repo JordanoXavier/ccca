@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
 import RideRepositoryDatabase from '../repositories/ride/RideRepositoryDatabase';
-import RequestRide from '../useCases/ride/RequestRide';
+import RequestRide from '../../useCases/ride/requestRide';
 import AccountRepositoryDatabase from '../repositories/account/AccountRepositotyDatabase';
-import GetRide from '../useCases/ride/GetRide';
-import AcceptRide from '../useCases/ride/AcceptRide';
-import StartRide from '../useCases/ride/StartRide';
+import GetRide from '../../useCases/ride/getRide';
+import AcceptRide from '../../useCases/ride/AcceptRide';
+import StartRide from '../../useCases/ride/StartRide';
 
 const router = express.Router();
 

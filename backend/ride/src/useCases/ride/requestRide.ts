@@ -1,7 +1,7 @@
 import pgp from "pg-promise";
 import crypto from "crypto";
-import RideRepository from "../../repositories/ride/RideRepository";
-import AccountRepository from "../../repositories/account/AccountRepository";
+import RideRepository from "../../infra/repositories/ride/RideRepository";
+import AccountRepository from "../../infra/repositories/account/AccountRepository";
 
 interface position {
     lat: number;
