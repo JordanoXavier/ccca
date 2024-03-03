@@ -10,7 +10,7 @@ export default class Account {
 	isPassenger: boolean;
 	isDriver: boolean;
 
-	constructor (name: string, email: string, cpf: string, carPlate: string, isPassenger: boolean, isDriver: boolean, accountId?: string,) {
+	constructor (name: string, email: string, cpf: string, carPlate: string, isPassenger: boolean, isDriver: boolean, accountId?: string) {
 		if (!this.validateName(name)) throw new Error("invalid name");
 		if (!this.validateEmail(email)) throw new Error("invalid email");
 		if (!validateCpf(cpf)) throw new Error("invalid cpf");

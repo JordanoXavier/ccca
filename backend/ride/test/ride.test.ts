@@ -28,7 +28,7 @@ test("Deve criar uma corrida", async function () {
 	const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -54,7 +54,7 @@ test("Não deve criar uma corrida se o account_id não for de um passageiro", as
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -72,21 +72,21 @@ test("Não deve criar uma corrida se já houver uma corrida em andamento", async
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
     await requestRide.execute(rideInput);
 
     const secondRideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
     await expect(() => requestRide.execute(secondRideInput)).rejects.toThrow(new Error("ride in progress found"));
 });  
 
-test("Deve aceitar uma corrida", async function () {
+test.only("Deve aceitar uma corrida", async function () {
     const passengerInput = {
         name: "John Doe Passenger",
         email: `john.doe${Math.random()}@gmail.com`,
@@ -97,7 +97,7 @@ test("Deve aceitar uma corrida", async function () {
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -114,7 +114,8 @@ test("Deve aceitar uma corrida", async function () {
     const driverOutput = await signup.execute(driverInput);
 
     const acceptRide = new AcceptRide(rideRepository, accountRepository);
-    await acceptRide.execute({ride_id: rideOutput.ride_id, driver_id: driverOutput.accountId});
+    const a = await acceptRide.execute({ride_id: rideOutput.ride_id, driver_id: driverOutput.accountId});
+    console.log(a)
 
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
@@ -134,7 +135,7 @@ test ("Não deve aceitar uma corrida que não esteja com status requested", asyn
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -167,7 +168,7 @@ test ("Não deve aceitar uma corrida se o motorista já tiver uma corrida", asyn
     const passengerOutput = await signup.execute(passenger1Input);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -197,7 +198,7 @@ test ("Não deve aceitar uma corrida se o motorista já tiver uma corrida", asyn
     const passengerOutput2 = await signup.execute(passenger2Input);
 
     const secondRideInput = {
-        passenger_id: passengerOutput2.accountId,
+        passengerId: passengerOutput2.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -217,7 +218,7 @@ test("Deve iniciar uma corrida", async function () {
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };
@@ -255,7 +256,7 @@ test("Não deve iniciar uma corrida que não esteja com status accepted", async 
     const passengerOutput = await signup.execute(passengerInput);
 
     const rideInput = {
-        passenger_id: passengerOutput.accountId,
+        passengerId: passengerOutput.accountId,
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
     };

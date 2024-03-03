@@ -1,7 +1,8 @@
 import pgp from "pg-promise";
-import RideRepository, { Ride } from "./RideRepository";
+import RideRepository from "./RideRepository";
 import PgPromiseAdapter from "../../database/PgPromiseAdapter";
 import Account from "../../../domain/Account";
+import Ride from "../../../domain/Ride";
 
 export default class RideRepositoryDatabase implements RideRepository {
 
@@ -52,17 +53,19 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.query(`
             INSERT INTO cccat14.ride (ride_id, passenger_id, status, date, from_lat, from_long, to_lat, to_long) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        `, [ride.ride_id, ride.passenger_id, ride.status, ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long]);
+        `, [ride.rideId, ride.passengerId, ride.status, ride.date, ride.fromLat, ride.fromLong, ride.to_lat, ride.to_long]);
         await connection.close();
     }
 
     async updateRide (ride: Ride): Promise<void>{
+        
+
         const connection = new PgPromiseAdapter();
         await connection.query(`
             UPDATE cccat14.ride 
             SET driver_id = $1, status = $2 
             WHERE ride_id = $3
-        `, [ride.driver?.accountId, ride.status, ride.ride_id]);
+        `, [ride.driver?.accountId, ride.status, ride.rideId]);
         await connection.close();
     }
 }
