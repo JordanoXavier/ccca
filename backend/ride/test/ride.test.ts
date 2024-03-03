@@ -1,3 +1,4 @@
+import assert from "assert";
 import AccountRepositoryDatabase from "../src/infra/repositories/account/AccountRepositotyDatabase";
 import RideRepositoryDatabase from "../src/infra/repositories/ride/RideRepositoryDatabase";
 import Signup from "../src/useCases/account/signup";
@@ -36,8 +37,9 @@ test("Deve criar uma corrida", async function () {
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
     expect(rideOutput.ride_id).toBeDefined();
+    assert(getRideOutput);
     expect(getRideOutput.passenger?.accountId).toBe(passengerOutput.accountId);
-    expect(getRideOutput.driver).toBe(null);
+    expect(getRideOutput.driver).toBe(undefined);
     expect(getRideOutput.status).toBe("requested");
 });
 
@@ -86,7 +88,7 @@ test("Não deve criar uma corrida se já houver uma corrida em andamento", async
     await expect(() => requestRide.execute(secondRideInput)).rejects.toThrow(new Error("ride in progress found"));
 });  
 
-test.only("Deve aceitar uma corrida", async function () {
+test("Deve aceitar uma corrida", async function () {
     const passengerInput = {
         name: "John Doe Passenger",
         email: `john.doe${Math.random()}@gmail.com`,
@@ -114,11 +116,11 @@ test.only("Deve aceitar uma corrida", async function () {
     const driverOutput = await signup.execute(driverInput);
 
     const acceptRide = new AcceptRide(rideRepository, accountRepository);
-    const a = await acceptRide.execute({ride_id: rideOutput.ride_id, driver_id: driverOutput.accountId});
-    console.log(a)
-
+    await acceptRide.execute({ride_id: rideOutput.ride_id, driver_id: driverOutput.accountId});
+ 
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
+    assert(getRideOutput);
     expect(getRideOutput.driver?.accountId).toBe(driverOutput.accountId);
     expect(getRideOutput.status).toBe("accepted");
 }
@@ -242,6 +244,7 @@ test("Deve iniciar uma corrida", async function () {
 
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
+    assert(getRideOutput);
     expect(getRideOutput.status).toBe("in_progress");
 });
 

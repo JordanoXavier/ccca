@@ -5,7 +5,7 @@ export default class GetRide {
 	constructor (private rideRepository: RideRepository) {
 	}
 	
-	async execute (rideId: string): Promise<Ride> {
+	async execute (rideId: string): Promise<Ride | undefined> {
 		const ride = await this.rideRepository.getById(rideId);
 		return ride;
 	}

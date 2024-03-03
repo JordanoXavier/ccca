@@ -2,7 +2,6 @@ import Account from "./Account";
 
 export default class Ride {
     rideId: string;
-    passengerId: string;
     status: string;
     date: Date;
     fromLat: number;
@@ -12,9 +11,8 @@ export default class Ride {
     passenger?: Account;
     driver?: Account;
 
-    constructor (passengerId: string, status: string, date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string,) {
+    constructor (status: string, date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string,) {
         this.rideId = rideId || crypto.randomUUID();
-        this.passengerId = passengerId;
         this.status = status;
         this.date = date;
         this.fromLat = fromLat;

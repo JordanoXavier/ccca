@@ -1,4 +1,3 @@
-import pgp from "pg-promise";
 import RideRepository from "./RideRepository";
 import PgPromiseAdapter from "../../database/PgPromiseAdapter";
 import Account from "../../../domain/Account";
@@ -17,7 +16,7 @@ export default class RideRepositoryDatabase implements RideRepository {
         return rides;
     }
 
-	async getById (rideId: string): Promise<Ride>{
+	async getById (rideId: string): Promise<Ride | undefined>{
         const connection = new PgPromiseAdapter();
         const [result] = await connection.query(`
             SELECT r.*, 
@@ -30,22 +29,21 @@ export default class RideRepositoryDatabase implements RideRepository {
         `, [rideId]);
     
         await connection.close();
+        if (!result) return undefined;
 
         const passenger = new Account(result.p_name, result.p_email, result.p_cpf, result.p_car_plate, result.p_is_passenger, result.p_is_driver, result.p_account_id);
-        const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.d_account_id) : null;
-    
-        return {
-            ...result,
-            passenger: passenger,
-            driver: driver,
-        };
+        const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.d_account_id) : undefined;
+        
+        return new Ride(result.status, result.date, result.from_lat, result.from_long, result.to_lat, result.to_long, passenger, driver, result.ride_id);
     }
 
-    async getByPassengerId (accountId: string): Promise<Ride>{
+    async getByPassengerId (accountId: string): Promise<Ride | undefined>{
         const connection = new PgPromiseAdapter();
         const [ride] = await connection.query("select * from cccat14.ride where passenger_id = $1 and status != 'completed'", [accountId]);
         await connection.close();
-        return ride;
+
+        if (!ride) return undefined;
+        return new Ride(ride.status, ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id);
     }
 
     async addRide (ride: Ride): Promise<void>{
@@ -53,13 +51,11 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.query(`
             INSERT INTO cccat14.ride (ride_id, passenger_id, status, date, from_lat, from_long, to_lat, to_long) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        `, [ride.rideId, ride.passengerId, ride.status, ride.date, ride.fromLat, ride.fromLong, ride.to_lat, ride.to_long]);
+        `, [ride.rideId, ride.passenger?.accountId, ride.status, ride.date, ride.fromLat, ride.fromLong, ride.to_lat, ride.to_long]);
         await connection.close();
     }
 
     async updateRide (ride: Ride): Promise<void>{
-        
-
         const connection = new PgPromiseAdapter();
         await connection.query(`
             UPDATE cccat14.ride 

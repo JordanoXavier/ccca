@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import RideRepository from "../../infra/repositories/ride/RideRepository";
 import AccountRepository from "../../infra/repositories/account/AccountRepository";
+import Ride from "../../domain/Ride";
 
 interface position {
     lat: number;
@@ -20,7 +21,8 @@ export default class RequestRide {
         if (ride && ride.status !== "completed") throw new Error("ride in progress found");
     
         const id = crypto.randomUUID();
-        await this.rideRepository.addRide({ rideId: id, passengerId, status: "requested", date: new Date(), fromLat: position.lat, fromLong: position.long, to_lat: destination.lat, to_long: destination.long });
+        const newRide = new Ride("requested", new Date(), position.lat, position.long, destination.lat, destination.long, account, undefined, id);
+        await this.rideRepository.addRide(newRide);
     
         return { ride_id: id };
 	}
