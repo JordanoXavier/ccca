@@ -1,15 +1,7 @@
-export default interface AccountRepository  {
-	save (account: any): Promise<void>;
-	getById (accountId: string): Promise<Account>;
-	getByEmail (email: string): Promise<Account>;
-}
+import Account from "../../../domain/Account";
 
-export interface Account {
-	account_id: string;
-	name: string;
-	email: string;
-	cpf: string;
-	car_plate: string;
-	is_passenger: boolean;
-	is_driver: boolean;
+export default interface AccountRepository  {
+	save (account: Account): Promise<void>;
+	getById (accountId: string): Promise<Account | undefined>;
+	getByEmail (email: string): Promise<Account | undefined>;
 }

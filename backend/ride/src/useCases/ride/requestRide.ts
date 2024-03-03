@@ -14,7 +14,8 @@ export default class RequestRide {
 	
 	async execute ({passenger_id, position, destination}: {passenger_id: string, position: position, destination: position}) {
         const account = await this.accountRepository.getById(passenger_id);
-        if (!account.is_passenger) throw new Error("account is not a passenger");
+        if (!account) throw new Error("account not found");
+        if (!account.isPassenger) throw new Error("account is not a passenger");
     
         const ride = await this.rideRepository.getByPassengerId(passenger_id);
         if (ride && ride.status !== "completed") throw new Error("ride in progress found");

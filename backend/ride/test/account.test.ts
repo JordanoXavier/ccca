@@ -1,3 +1,4 @@
+import assert from "assert";
 import AccountRepositoryDatabase from "../src/infra/repositories/account/AccountRepositotyDatabase";
 import GetAccount from "../src/useCases/account/getAccount";
 import Signup from "../src/useCases/account/signup";
@@ -27,6 +28,7 @@ test.each([
 	
 	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
+	assert(outputGetAccount);
 	expect(outputSignup.accountId).toBeDefined();
 	expect(outputGetAccount.name).toBe(inputSignup.name);
 	expect(outputGetAccount.email).toBe(inputSignup.email);
@@ -45,9 +47,10 @@ test("Deve criar a conta de motorista", async function () {
 	const outputSignup = await signup.execute(inputSignup);
 	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 
+	assert(outputGetAccount);
 	expect(outputSignup.accountId).toBeDefined();
 	expect(outputGetAccount.name).toBe(inputSignup.name);
-	expect(outputGetAccount.car_plate).toBe(inputSignup.carPlate)
+	expect(outputGetAccount.carPlate).toBe(inputSignup.carPlate)
 });
 
 test("Não deve criar a conta de motorista com placa de carro inválida", async function () {

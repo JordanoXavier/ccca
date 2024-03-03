@@ -7,7 +7,8 @@ export default class AcceptRide {
 	
 	async execute ({ride_id, driver_id}: {ride_id: string, driver_id: string}) {
         const account = await this.accountRepository.getById(driver_id);
-        if (!account.is_driver) throw new Error("account is not a driver");
+        if (!account) throw new Error("account not found");
+        if (!account.isDriver) throw new Error("account is not a driver");
     
         const ride = await this.rideRepository.getById(ride_id);
         if (!ride) throw new Error("ride not found");

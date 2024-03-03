@@ -1,6 +1,7 @@
 import pgp from "pg-promise";
 import RideRepository, { Ride } from "./RideRepository";
 import PgPromiseAdapter from "../../database/PgPromiseAdapter";
+import Account from "../../../domain/Account";
 
 export default class RideRepositoryDatabase implements RideRepository {
 
@@ -28,27 +29,14 @@ export default class RideRepositoryDatabase implements RideRepository {
         `, [rideId]);
     
         await connection.close();
+
+        const passenger = new Account(result.p_name, result.p_email, result.p_cpf, result.p_car_plate, result.p_is_passenger, result.p_is_driver, result.p_account_id);
+        const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.d_account_id) : null;
     
         return {
             ...result,
-            passenger: {
-                account_id: result.p_account_id,
-                name: result.p_name,
-                email: result.p_email,
-                cpf: result.p_cpf,
-                car_plate: result.p_car_plate,
-                is_passenger: result.p_is_passenger,
-                is_driver: result.p_is_driver
-            },
-            driver: result.d_account_id ? {
-                account_id: result.d_account_id,
-                name: result.d_name,
-                email: result.d_email,
-                cpf: result.d_cpf,
-                car_plate: result.d_car_plate,
-                is_passenger: result.d_is_passenger,
-                is_driver: result.d_is_driver
-            } : null
+            passenger: passenger,
+            driver: driver,
         };
     }
 
@@ -74,7 +62,7 @@ export default class RideRepositoryDatabase implements RideRepository {
             UPDATE cccat14.ride 
             SET driver_id = $1, status = $2 
             WHERE ride_id = $3
-        `, [ride.driver?.account_id, ride.status, ride.ride_id]);
+        `, [ride.driver?.accountId, ride.status, ride.ride_id]);
         await connection.close();
     }
 }

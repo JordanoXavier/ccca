@@ -36,7 +36,7 @@ test("Deve criar uma corrida", async function () {
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
     expect(rideOutput.ride_id).toBeDefined();
-    expect(getRideOutput.passenger?.account_id).toBe(passengerOutput.accountId);
+    expect(getRideOutput.passenger?.accountId).toBe(passengerOutput.accountId);
     expect(getRideOutput.driver).toBe(null);
     expect(getRideOutput.status).toBe("requested");
 });
@@ -118,7 +118,7 @@ test("Deve aceitar uma corrida", async function () {
 
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
-    expect(getRideOutput.driver?.account_id).toBe(driverOutput.accountId);
+    expect(getRideOutput.driver?.accountId).toBe(driverOutput.accountId);
     expect(getRideOutput.status).toBe("accepted");
 }
 );

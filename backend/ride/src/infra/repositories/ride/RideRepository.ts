@@ -1,4 +1,4 @@
-import { Account } from "../account/AccountRepository";
+import Account from "../../../domain/Account";
 
 export default interface RideRepository  {
     listByDriverId(driver_id: string): Promise<Ride[]>;
