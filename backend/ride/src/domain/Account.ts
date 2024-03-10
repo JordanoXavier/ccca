@@ -1,12 +1,13 @@
 import crypto from "crypto";
 import { validateCpf } from "./validateCpf";
+import CarPlate from "./CarPlate";
 
 export default class Account {
 	accountId: string;
 	name: string;
 	email: string;
 	cpf: string;
-	carPlate: string;
+	carPlate: CarPlate | null;
 	isPassenger: boolean;
 	isDriver: boolean;
 
@@ -14,12 +15,11 @@ export default class Account {
 		if (!this.validateName(name)) throw new Error("invalid name");
 		if (!this.validateEmail(email)) throw new Error("invalid email");
 		if (!validateCpf(cpf)) throw new Error("invalid cpf");
-		if (isDriver && !this.validateCarPlate(carPlate)) throw new Error("invalid car plate");
 		this.accountId = accountId || crypto.randomUUID();
 		this.name = name;
 		this.email = email;
 		this.cpf = cpf;
-		this.carPlate = carPlate;
+		this.carPlate = isDriver ? new CarPlate(carPlate) : null;
 		this.isPassenger = isPassenger;
 		this.isDriver = isDriver;
 	}
