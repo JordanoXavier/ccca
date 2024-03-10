@@ -30,7 +30,7 @@ test.each([
 
 	assert(outputGetAccount);
 	expect(outputSignup.accountId).toBeDefined();
-	expect(outputGetAccount.name).toBe(inputSignup.name);
+	expect(outputGetAccount.name.value).toBe(inputSignup.name);
 	expect(outputGetAccount.email).toBe(inputSignup.email);
 });
 
@@ -49,7 +49,8 @@ test("Deve criar a conta de motorista", async function () {
 
 	assert(outputGetAccount);
 	expect(outputSignup.accountId).toBeDefined();
-	expect(outputGetAccount.name).toBe(inputSignup.name);
+	expect(outputGetAccount.name.value).toBe(inputSignup.name);
+	expect(outputGetAccount.carPlate?.value).toBe(inputSignup.carPlate);
 });
 
 test("Não deve criar a conta de motorista com placa de carro inválida", async function () {
