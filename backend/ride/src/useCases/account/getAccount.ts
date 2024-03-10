@@ -1,4 +1,4 @@
-import Account from "../../domain/Account";
+import Account from "../../domain/accountAggregate/Account";
 import AccountRepository from "../../infra/repositories/account/AccountRepository";
 
 export default class GetAccount {

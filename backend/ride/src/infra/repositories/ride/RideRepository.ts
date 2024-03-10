@@ -1,4 +1,4 @@
-import Ride from "../../../domain/Ride";
+import Ride from "../../../domain/rideAggregate/Ride";
 
 export default interface RideRepository  {
     listByDriverId(driver_id: string): Promise<Ride[]>;

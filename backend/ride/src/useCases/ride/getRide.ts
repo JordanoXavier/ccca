@@ -1,4 +1,4 @@
-import Ride from "../../domain/Ride";
+import Ride from "../../domain/rideAggregate/Ride";
 import RideRepository from "../../infra/repositories/ride/RideRepository";
 
 export default class GetRide {

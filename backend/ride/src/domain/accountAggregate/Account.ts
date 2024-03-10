@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import { validateCpf } from "./validateCpf";
 import CarPlate from "./CarPlate";
 import Name from "./Name";
 import Cpf from "./Cpf";

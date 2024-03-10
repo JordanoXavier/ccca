@@ -1,7 +1,7 @@
 import RideRepository from "./RideRepository";
 import PgPromiseAdapter from "../../database/PgPromiseAdapter";
-import Account from "../../../domain/Account";
-import Ride from "../../../domain/Ride";
+import Account from "../../../domain/accountAggregate/Account";
+import Ride from "../../../domain/rideAggregate/Ride";
 
 export default class RideRepositoryDatabase implements RideRepository {
 

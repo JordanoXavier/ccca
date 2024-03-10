@@ -1,7 +1,5 @@
-import crypto from "crypto";
-import { validateCpf } from "../../domain/validateCpf";
 import AccountRepository from "../../infra/repositories/account/AccountRepository";
-import Account from "../../domain/Account";
+import Account from "../../domain/accountAggregate/Account";
 
 
 export default class Signup {

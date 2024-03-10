@@ -1,4 +1,4 @@
-import Account from "../../../domain/Account";
+import Account from "../../../domain/accountAggregate/Account";
 import PgPromiseAdapter from "../../database/PgPromiseAdapter";
 import AccountRepository from "./AccountRepository";
 
