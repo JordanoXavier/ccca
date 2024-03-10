@@ -3,11 +3,12 @@ import { validateCpf } from "./validateCpf";
 import CarPlate from "./CarPlate";
 import Name from "./Name";
 import Cpf from "./Cpf";
+import Email from "./Email";
 
 export default class Account {
 	accountId: string;
 	name: Name;
-	email: string;
+	email: Email;
 	cpf: Cpf;
 	carPlate: CarPlate | null;
 	isPassenger: boolean;
@@ -17,7 +18,7 @@ export default class Account {
 		if (!this.validateEmail(email)) throw new Error("invalid email");
 		this.accountId = accountId || crypto.randomUUID();
 		this.name = new Name(name);
-		this.email = email;
+		this.email = new Email(email);
 		this.cpf = new Cpf(cpf);
 		this.carPlate = isDriver ? new CarPlate(carPlate) : null;
 		this.isPassenger = isPassenger;

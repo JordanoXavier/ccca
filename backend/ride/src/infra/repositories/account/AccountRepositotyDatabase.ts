@@ -6,7 +6,7 @@ export default class AccountRepositoryDatabase implements AccountRepository {
 
 	async save (account: Account) {
 		const connection = new PgPromiseAdapter();
-		await connection.query("insert into cccat14.account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [account.accountId, account.name.value, account.email, account.cpf.value, account.carPlate?.value, !!account.isPassenger, !!account.isDriver]);
+		await connection.query("insert into cccat14.account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [account.accountId, account.name.value, account.email.value, account.cpf.value, account.carPlate?.value, !!account.isPassenger, !!account.isDriver]);
 		await connection.close();
 	}
 
