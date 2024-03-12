@@ -51,7 +51,7 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.query(`
             INSERT INTO cccat14.ride (ride_id, passenger_id, status, date, from_lat, from_long, to_lat, to_long) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        `, [ride.rideId, ride.passenger?.accountId, ride.status, ride.date, ride.fromLat, ride.fromLong, ride.to_lat, ride.to_long]);
+        `, [ride.rideId, ride.passenger?.accountId, ride.status.value, ride.date, ride.fromLat, ride.fromLong, ride.to_lat, ride.to_long]);
         await connection.close();
     }
 
@@ -61,7 +61,7 @@ export default class RideRepositoryDatabase implements RideRepository {
             UPDATE cccat14.ride 
             SET driver_id = $1, status = $2 
             WHERE ride_id = $3
-        `, [ride.driver?.accountId, ride.status, ride.rideId]);
+        `, [ride.driver?.accountId, ride.status.value, ride.rideId]);
         await connection.close();
     }
 }

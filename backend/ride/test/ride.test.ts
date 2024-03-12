@@ -40,7 +40,7 @@ test("Deve criar uma corrida", async function () {
     assert(getRideOutput);
     expect(getRideOutput.passenger?.accountId).toBe(passengerOutput.accountId);
     expect(getRideOutput.driver).toBe(undefined);
-    expect(getRideOutput.status).toBe("requested");
+    expect(getRideOutput.status.value).toBe("requested");
 });
 
 test("Não deve criar uma corrida se o account_id não for de um passageiro", async function () {
@@ -122,7 +122,7 @@ test("Deve aceitar uma corrida", async function () {
 
     assert(getRideOutput);
     expect(getRideOutput.driver?.accountId).toBe(driverOutput.accountId);
-    expect(getRideOutput.status).toBe("accepted");
+    expect(getRideOutput.status.value).toBe("accepted");
 }
 );
 
@@ -245,7 +245,7 @@ test("Deve iniciar uma corrida", async function () {
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
 
     assert(getRideOutput);
-    expect(getRideOutput.status).toBe("in_progress");
+    expect(getRideOutput.status.value).toBe("in_progress");
 });
 
 test("Não deve iniciar uma corrida que não esteja com status accepted", async function () {

@@ -18,7 +18,7 @@ export default class RequestRide {
         if (!account.isPassenger) throw new Error("account is not a passenger");
     
         const ride = await this.rideRepository.getByPassengerId(passengerId);
-        if (ride && ride.status !== "completed") throw new Error("ride in progress found");
+        if (ride && ride.status.value !== "completed") throw new Error("ride in progress found");
     
         const id = crypto.randomUUID();
         const newRide = new Ride(new Date(), position.lat, position.long, destination.lat, destination.long, account, undefined, id);

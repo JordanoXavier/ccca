@@ -1,8 +1,9 @@
 import Account from "../accountAggregate/Account";
+import Status from "./Status";
 
 export default class Ride {
     rideId: string;
-    status: any;
+    status: Status;
     date: Date;
     fromLat: number;
     fromLong: number;
@@ -12,9 +13,7 @@ export default class Ride {
     driver?: Account;
 
     constructor (date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string, status?: string,) {
-        if(status) this.status = status;
-        else this.request();
-
+        this.status = new Status(this, status);
         this.rideId = rideId || crypto.randomUUID();
         this.date = date;
         this.fromLat = fromLat;
@@ -26,16 +25,14 @@ export default class Ride {
     }
 
     request(){
-        this.status = "requested";
+        this.status.request();
     }
 
     start(){
-        if (this.status !== "accepted") throw new Error("ride is not accepted");
-        this.status = "in_progress";
+        this.status.start();
     }
 
     accept(){
-        if (this.status !== "requested") throw new Error("ride is not requested");
-        this.status = "accepted";
+        this.status.accept();
     }
 }
