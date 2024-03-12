@@ -28,4 +28,14 @@ export default class Ride {
     request(){
         this.status = "requested";
     }
+
+    start(){
+        if (this.status !== "accepted") throw new Error("ride is not accepted");
+        this.status = "in_progress";
+    }
+
+    accept(){
+        if (this.status !== "requested") throw new Error("ride is not requested");
+        this.status = "accepted";
+    }
 }
