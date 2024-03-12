@@ -2,7 +2,7 @@ import Account from "../accountAggregate/Account";
 
 export default class Ride {
     rideId: string;
-    status: string;
+    status: any;
     date: Date;
     fromLat: number;
     fromLong: number;
@@ -11,9 +11,11 @@ export default class Ride {
     passenger?: Account;
     driver?: Account;
 
-    constructor (status: string, date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string,) {
+    constructor (date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string, status?: string,) {
+        if(status) this.status = status;
+        else this.request();
+
         this.rideId = rideId || crypto.randomUUID();
-        this.status = status;
         this.date = date;
         this.fromLat = fromLat;
         this.fromLong = fromLong;
@@ -21,5 +23,9 @@ export default class Ride {
         this.to_long = to_long;
         this.passenger = passenger;
         this.driver = driver;
+    }
+
+    request(){
+        this.status = "requested";
     }
 }
