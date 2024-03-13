@@ -13,7 +13,11 @@ export default class RideRepositoryDatabase implements RideRepository {
             WHERE r.driver_id = $1
         `, [driver_id]);
         await connection.close();
-        return rides;
+        
+        return rides.map((ride: any) => {
+            return new Ride(ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id, ride.status);
+        });
+
     }
 
 	async getById (rideId: string): Promise<Ride | undefined>{
