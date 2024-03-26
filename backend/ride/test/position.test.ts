@@ -67,5 +67,22 @@ async function createAndStartRide(): Promise<string>{
     return rideOutput.ride_id;
 }
 
+test("Deve verificar se a corrida está em status in_progress, se não estiver lançar um erro", async function () {    
+    const passengerInput = {
+        name: "John Doe Passenger",
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: "88946105003",
+        isPassenger: true,
+        password: "admin123"
+    };
+    const passengerOutput = await signup.execute(passengerInput);
 
-//Deve verificar se a corrida está em status "in_progress", se não estiver lançar um erro
+    const rideInput = {
+        passengerId: passengerOutput.accountId,
+        position: { lat: 0, long: 0 },
+        destination: { lat: 10, long: 10 }
+    };
+    const rideOutput = await requestRide.execute(rideInput);
+
+    await expect(updatePosition.execute({ride_id: rideOutput.ride_id, lat: 2, long: 2})).rejects.toThrow("ride not in progress");
+})
