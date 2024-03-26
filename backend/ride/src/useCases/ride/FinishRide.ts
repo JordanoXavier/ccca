@@ -27,7 +27,7 @@ export default class FinishRide {
 
 
         // Atualizar a corrida com o status "completed", a distância e o valor da corrida (fare)
-        // ride.
+        ride.finish(totalDistance, fare);
         await this.rideRepository.updateRide(ride);
     }
 

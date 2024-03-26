@@ -15,7 +15,7 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.close();
         
         return rides.map((ride: any) => {
-            return new Ride(ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id, ride.status);
+            return new Ride(ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id, ride.status, ride.distance, ride.fare);
         });
 
     }
@@ -38,7 +38,7 @@ export default class RideRepositoryDatabase implements RideRepository {
         const passenger = new Account(result.p_name, result.p_email, result.p_cpf, result.p_car_plate, result.p_is_passenger, result.p_is_driver, result.p_account_id);
         const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.d_account_id) : undefined;
         
-        return new Ride(result.date, result.from_lat, result.from_long, result.to_lat, result.to_long, passenger, driver, result.ride_id, result.status);
+        return new Ride(result.date, result.from_lat, result.from_long, result.to_lat, result.to_long, passenger, driver, result.ride_id, result.status, result.distance, result.fare);
     }
 
     async getByPassengerId (accountId: string): Promise<Ride | undefined>{
@@ -47,7 +47,7 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.close();
 
         if (!ride) return undefined;
-        return new Ride(ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id, ride.status);
+        return new Ride(ride.date, ride.from_lat, ride.from_long, ride.to_lat, ride.to_long, undefined, undefined, ride.ride_id, ride.status, ride.distance, ride.fare);
     }
 
     async addRide (ride: Ride): Promise<void>{

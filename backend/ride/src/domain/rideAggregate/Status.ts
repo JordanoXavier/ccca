@@ -24,5 +24,10 @@ export default class Status {
 
     request(){
         this.value = "requested";
-    }    
+    }
+    
+    finish(){
+        if (this.ride.status.value !== "in_progress") throw new Error("ride is not in progress");
+        this.value = "completed";
+    }
 }

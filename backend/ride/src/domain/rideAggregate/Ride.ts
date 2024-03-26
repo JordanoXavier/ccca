@@ -12,7 +12,10 @@ export default class Ride {
     passenger?: Account;
     driver?: Account;
 
-    constructor (date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string, status?: string,) {
+    private distance?: number;
+    private fare?: number;
+
+    constructor (date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string, status?: string, distance?: number, fare?: number) {
         this.status = new Status(this, status);
         this.rideId = rideId || crypto.randomUUID();
         this.date = date;
@@ -22,6 +25,8 @@ export default class Ride {
         this.to_long = to_long;
         this.passenger = passenger;
         this.driver = driver;
+        this.distance = distance;
+        this.fare = fare;
     }
 
     request(){
@@ -34,5 +39,11 @@ export default class Ride {
 
     accept(){
         this.status.accept();
+    }
+
+    finish(totalDistance: number, fare: number){
+        this.status.finish();
+        this.distance = totalDistance;
+        this.fare = fare;
     }
 }
