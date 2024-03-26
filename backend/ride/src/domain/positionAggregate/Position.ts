@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export default class Position {
     positionId: string;
     rideId: string;

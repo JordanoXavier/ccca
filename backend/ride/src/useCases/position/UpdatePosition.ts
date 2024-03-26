@@ -13,5 +13,7 @@ export default class UpdatePosition {
 
         const position = new Position(ride_id, lat, long);
         await this.positionRepository.addPosition(position);
+
+        return position.positionId;
     }
 }
