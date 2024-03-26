@@ -21,4 +21,13 @@ export default class PositionRepositoryDatabase implements PositionRepository {
         if (!result) return null;
         return new Position(result.ride_id, Number(result.lat), Number(result.long), result.date);
     }
+
+    async listByRideId(ride_id: string): Promise<Position[]> {
+        const connection = new PgPromiseAdapter();
+        const result = await connection.query(`
+            SELECT * FROM cccat14.position WHERE ride_id = $1
+        `, [ride_id]);
+        await connection.close();
+        return result.map((row: any) => new Position(row.ride_id, Number(row.lat), Number(row.long), row.date));
+    }
 }
