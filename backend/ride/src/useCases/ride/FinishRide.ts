@@ -7,12 +7,10 @@ export default class FinishRide {
     }
     
     async execute ({ride_id}: {ride_id: string}) {
-        // Deve verificar se a corrida está em status "in_progress", se não estiver lançar um erro
         const ride = await this.rideRepository.getById(ride_id);
         if (!ride) throw new Error("ride not found");
         if (ride.status.value !== "in_progress") throw new Error("ride not in progress");
 
-        // Deve obter todas as positions e calcular a distância entre cada uma delas, para isso utilize um algoritmo que receba duas coordenadas (lat, long) e retorne a distância entre elas em km.
         const positions = await this.positionRepository.listByRideId(ride_id);
         let totalDistance = 0;
         for (let i = 0; i < positions.length - 1; i++) {
@@ -22,12 +20,7 @@ export default class FinishRide {
             totalDistance += distance;
         }
 
-        // Com a distância total calculada, calcule o valor da corrida (fare) multiplicando a distância por 2,1
-        const fare = totalDistance * 2.1;
-
-
-        // Atualizar a corrida com o status "completed", a distância e o valor da corrida (fare)
-        ride.finish(totalDistance, fare);
+        ride.finish(totalDistance);
         await this.rideRepository.updateRide(ride);
     }
 

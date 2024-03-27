@@ -6,6 +6,9 @@ import AcceptRide from "../src/useCases/ride/AcceptRide";
 import GetRide from "../src/useCases/ride/getRide";
 import RequestRide from "../src/useCases/ride/requestRide";
 import StartRide from "../src/useCases/ride/StartRide";
+import FinishRide from "../src/useCases/ride/FinishRide";
+import PositionRepositoryDatabase from "../src/infra/repositories/position/PositionRepositoryDatabase";
+import UpdatePosition from "../src/useCases/position/UpdatePosition";
 
 let signup: Signup;
 let requestRide: RequestRide;
@@ -267,4 +270,54 @@ test("Não deve iniciar uma corrida que não esteja com status accepted", async 
 
     const startRide = new StartRide(rideRepository);
     await expect(() => startRide.execute({ride_id: rideOutput.ride_id})).rejects.toThrow(new Error("ride is not accepted"));
+});
+
+test("Deve finalizar uma corrida", async function () {
+    const passengerInput = {
+        name: "John Doe Passenger",
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: "88946105003",
+        isPassenger: true,
+        password: "admin123"
+    };
+    const passengerOutput = await signup.execute(passengerInput);
+
+    const rideInput = {
+        passengerId: passengerOutput.accountId,
+        position: { lat: 0, long: 0 },
+        destination: { lat: 10, long: 10 }
+    };
+    const rideOutput = await requestRide.execute(rideInput);
+
+    const driverInput = {
+        name: "John Doe Driver",
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: "55335504021",
+        isDriver: true,
+        password: "admin123",
+        carPlate: "ABC1234",
+    };
+    const driverOutput = await signup.execute(driverInput);
+
+    const acceptRide = new AcceptRide(rideRepository, accountRepository);
+    await acceptRide.execute({ride_id: rideOutput.ride_id, driver_id: driverOutput.accountId});
+
+    const startRide = new StartRide(rideRepository);
+    await startRide.execute({ride_id: rideOutput.ride_id});
+
+    const positionRepository = new PositionRepositoryDatabase();
+    const updatePosition = new UpdatePosition(positionRepository, rideRepository);
+    await updatePosition.execute({ride_id: rideOutput.ride_id, lat: 1, long: 1});
+    await updatePosition.execute({ride_id: rideOutput.ride_id, lat: 20, long: 20});
+
+    const finishRide = new FinishRide(positionRepository, rideRepository);
+    await finishRide.execute({ride_id: rideOutput.ride_id});
+
+    const getRideOutput = await getRide.execute(rideOutput.ride_id);
+
+    assert(getRideOutput);
+    expect(getRideOutput.status.value).toBe("completed");
+    expect(getRideOutput.fare).toBeDefined();
+    expect(getRideOutput.distance).toBeDefined();
+    expect(Number(getRideOutput.fare)).toBe(Number(getRideOutput.distance) * 2.1); 
 });

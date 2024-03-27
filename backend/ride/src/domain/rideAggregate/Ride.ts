@@ -40,9 +40,11 @@ export default class Ride {
         this.status.accept();
     }
 
-    finish(totalDistance: number, fare: number){
+    finish(totalDistance: number){
         this.status.finish();
         this.distance = totalDistance;
-        this.fare = fare;
+        console.debug("totalDistance", totalDistance)
+        this.fare = totalDistance * 2.1;
+        console.debug("fare", this.fare)
     }
 }
