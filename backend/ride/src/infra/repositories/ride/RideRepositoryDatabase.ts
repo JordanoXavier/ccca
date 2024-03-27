@@ -59,13 +59,13 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.close();
     }
 
-    async updateRide (ride: Ride): Promise<void>{
+    async updateRide (ride: Ride): Promise<void>{ 
         const connection = new PgPromiseAdapter();
         await connection.query(`
             UPDATE cccat14.ride 
-            SET driver_id = $1, status = $2 
-            WHERE ride_id = $3
-        `, [ride.driver?.accountId, ride.status.value, ride.rideId]);
+            SET driver_id = $1, distance = $2, fare = $3, status = $4
+            WHERE ride_id = $5
+        `, [ride.driver?.accountId, ride.distance, ride.fare, ride.status.value, ride.rideId]);
         await connection.close();
     }
 }

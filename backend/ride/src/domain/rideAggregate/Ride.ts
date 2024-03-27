@@ -11,9 +11,8 @@ export default class Ride {
     to_long: number;
     passenger?: Account;
     driver?: Account;
-
-    private distance?: number;
-    private fare?: number;
+    distance?: number;
+    fare?: number;
 
     constructor (date: Date, fromLat: number, fromLong: number, to_lat: number, to_long: number, passenger?: Account, driver?: Account, rideId?: string, status?: string, distance?: number, fare?: number) {
         this.status = new Status(this, status);
