@@ -44,7 +44,8 @@ async function getPassenger() {
         email: `john.doe${Math.random()}@gmail.com`,
         cpf: "88946105003",
         isPassenger: true,
-        password: "admin123"
+        password: "admin123",
+        creditCardToken: "1234567890123456"
     };
     const passengerOutput = await signup.execute(passengerInput);
     return passengerOutput;
@@ -75,7 +76,8 @@ async function getDriver() {
         isPassenger: false,
         isDriver: true,
         carPlate: "ABC1234",
-        password: "admin123"
+        password: "admin123",
+        creditCardToken: "1234567890123456"
     };
     const driverOutput = await signup.execute(driverInput);
     return driverOutput;
@@ -149,7 +151,8 @@ test ("Não deve aceitar uma corrida se o motorista já tiver uma corrida", asyn
         email: `john.doe${Math.random()}@gmail.com`,
         cpf: "88946105003",
         isPassenger: true,
-        password: "admin123"
+        password: "admin123",
+        creditCardToken: "1234567890123456"
     };
     const passengerOutput2 = await signup.execute(passenger2Input);
 

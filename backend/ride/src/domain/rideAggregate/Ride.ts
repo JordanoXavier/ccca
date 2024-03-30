@@ -43,8 +43,6 @@ export default class Ride {
     finish(totalDistance: number){
         this.status.finish();
         this.distance = totalDistance;
-        console.debug("totalDistance", totalDistance)
         this.fare = totalDistance * 2.1;
-        console.debug("fare", this.fare)
     }
 }

@@ -35,8 +35,8 @@ export default class RideRepositoryDatabase implements RideRepository {
         await connection.close();
         if (!result) return undefined;
 
-        const passenger = new Account(result.p_name, result.p_email, result.p_cpf, result.p_car_plate, result.p_is_passenger, result.p_is_driver, result.p_account_id);
-        const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.d_account_id) : undefined;
+        const passenger = new Account(result.p_name, result.p_email, result.p_cpf, result.p_car_plate, result.p_is_passenger, result.p_is_driver, result.p_credit_card_token, result.p_account_id);
+        const driver = result.d_account_id ? new Account(result.d_name, result.d_email, result.d_cpf, result.d_car_plate, result.d_is_passenger, result.d_is_driver, result.p_credit_card_token, result.d_account_id) : undefined;
         
         return new Ride(result.date, result.from_lat, result.from_long, result.to_lat, result.to_long, passenger, driver, result.ride_id, result.status, result.distance, result.fare);
     }

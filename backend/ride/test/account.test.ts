@@ -18,6 +18,7 @@ function getInputExample() {
 		cpf: "55335504021",
 		isPassenger: true,
 		password: "admin123",
+		creditCardToken: "1234567890123456"
 	};
 }
 

@@ -37,7 +37,8 @@ async function createAndStartRide(): Promise<string>{
         email: `john.doe${Math.random()}@gmail.com`,
         cpf: "88946105003",
         isPassenger: true,
-        password: "admin123"
+        password: "admin123",
+        creditCardToken: "1234567890123456"
     };
     const passengerOutput = await signup.execute(passengerInput);
 
@@ -55,6 +56,7 @@ async function createAndStartRide(): Promise<string>{
         isDriver: true,
         password: "admin123",
         carPlate: "ABC1234",
+        creditCardToken: "1234567890123456",
     };
     const driverOutput = await signup.execute(driverInput);
 
@@ -73,7 +75,8 @@ test("Deve verificar se a corrida está em status in_progress, se não estiver l
         email: `john.doe${Math.random()}@gmail.com`,
         cpf: "88946105003",
         isPassenger: true,
-        password: "admin123"
+        password: "admin123",
+        creditCardToken: "1234567890123456"
     };
     const passengerOutput = await signup.execute(passengerInput);
 

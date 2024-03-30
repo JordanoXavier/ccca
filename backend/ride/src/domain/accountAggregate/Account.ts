@@ -12,9 +12,10 @@ export default class Account {
 	carPlate: CarPlate | null;
 	isPassenger: boolean;
 	isDriver: boolean;
+	creditCardToken: string;
 
-	constructor (name: string, email: string, cpf: string, carPlate: string, isPassenger: boolean, isDriver: boolean, accountId?: string) {
-		if (!this.validateEmail(email)) throw new Error("invalid email");
+
+	constructor (name: string, email: string, cpf: string, carPlate: string, isPassenger: boolean, isDriver: boolean, creditCardToken: string ,accountId?: string) {
 		this.accountId = accountId || crypto.randomUUID();
 		this.name = new Name(name);
 		this.email = new Email(email);
@@ -22,10 +23,6 @@ export default class Account {
 		this.carPlate = isDriver ? new CarPlate(carPlate) : null;
 		this.isPassenger = isPassenger;
 		this.isDriver = isDriver;
+		this.creditCardToken = creditCardToken;
 	}
-	
-	private validateEmail (str: string) {
-		return str.match(/^(.+)@(.+)$/);
-	}
-
 }
