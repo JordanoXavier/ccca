@@ -38,7 +38,7 @@ test("Deve criar uma corrida", async function () {
     expect(getRideOutput.status.value).toBe("requested");
 });
 
-async function getPassenger() {
+export async function getPassenger() {
     const passengerInput = {
         name: "John Passenger",
         email: `john.doe${Math.random()}@gmail.com`,
@@ -51,7 +51,7 @@ async function getPassenger() {
     return passengerOutput;
 }
 
-function getRideCommon() {
+export function getRideCommon() {
     return {
         position: { lat: 0, long: 0 },
         destination: { lat: 10, long: 10 }
@@ -68,7 +68,7 @@ test("Não deve criar uma corrida se o account_id não for de um passageiro", as
     await expect(() => requestRide.execute(rideInput)).rejects.toThrow(new Error("account is not a passenger"));
 });
 
-async function getDriver() {
+export async function getDriver() {
     const driverInput = {
         name: "John Driver",
         email: `john.doe${Math.random()}@gmail.com`,
