@@ -9,12 +9,14 @@ import StartRide from "../src/useCases/ride/StartRide";
 import FinishRide from "../src/useCases/ride/FinishRide";
 import PositionRepositoryDatabase from "../src/infra/repositories/position/PositionRepositoryDatabase";
 import UpdatePosition from "../src/useCases/position/UpdatePosition";
+import TransactionRepositoryDatabase from "../src/infra/repositories/transaction/TransactionRepositoryDatabase";
 
 let signup: Signup;
 let requestRide: RequestRide;
 let getRide: GetRide;
 const accountRepository = new AccountRepositoryDatabase();
 const rideRepository = new RideRepositoryDatabase();
+const transactionRepository = new TransactionRepositoryDatabase();
 beforeEach(async () => {
 	signup = new Signup(accountRepository);
     requestRide = new RequestRide(rideRepository, accountRepository);
@@ -198,7 +200,7 @@ test("Não deve iniciar uma corrida que não esteja com status accepted", async 
     await expect(() => startRide.execute({ride_id: rideOutput.ride_id})).rejects.toThrow(new Error("ride is not accepted"));
 });
 
-test("Deve finalizar uma corrida", async function () {
+test.only("Deve finalizar uma corrida", async function () {
     const passengerOutput = await getPassenger();
 
     const rideInput = {
@@ -219,7 +221,7 @@ test("Deve finalizar uma corrida", async function () {
     await updatePosition.execute({ride_id: rideOutput.ride_id, lat: 1, long: 1});
     await updatePosition.execute({ride_id: rideOutput.ride_id, lat: 20, long: 20});
 
-    const finishRide = new FinishRide(positionRepository, rideRepository);
+    const finishRide = new FinishRide(positionRepository, rideRepository, transactionRepository);
     await finishRide.execute({ride_id: rideOutput.ride_id});
 
     const getRideOutput = await getRide.execute(rideOutput.ride_id);
@@ -228,5 +230,8 @@ test("Deve finalizar uma corrida", async function () {
     expect(getRideOutput.status.value).toBe("completed");
     expect(getRideOutput.fare).toBeDefined();
     expect(getRideOutput.distance).toBeDefined();
-    expect(Number(getRideOutput.fare)).toBe(Number(getRideOutput.distance) * 2.1); 
+    expect(Number(getRideOutput.fare)).toBe(Number(getRideOutput.distance) * 2.1);
+    
+    const transaction = await transactionRepository.getByRideId(rideOutput.ride_id);
+    expect(transaction.status).toBe("paid");
 });

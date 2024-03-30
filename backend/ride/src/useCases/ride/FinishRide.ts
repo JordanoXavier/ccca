@@ -1,10 +1,11 @@
 import DistanceCalculator from "../../domain/positionAggregate/DistanceCalculator";
-import Position from "../../domain/positionAggregate/Position";
 import PositionRepository from "../../infra/repositories/position/PositionRepository";
 import RideRepository from "../../infra/repositories/ride/RideRepository";
+import TransactionRepository from "../../infra/repositories/transaction/TransactionRepository";
+import ProcessPayment from "../transaction/ProcessPayment";
 
 export default class FinishRide {
-    constructor (private positionRepository: PositionRepository, private rideRepository: RideRepository) {
+    constructor (private positionRepository: PositionRepository, private rideRepository: RideRepository, private transactionRepository: TransactionRepository) {
     }
     
     async execute ({ride_id}: {ride_id: string}) {
@@ -18,5 +19,8 @@ export default class FinishRide {
 
         ride.finish(totalDistance);
         await this.rideRepository.updateRide(ride);
+
+        const processPayment = new ProcessPayment(this.transactionRepository);
+        await processPayment.execute(ride_id, "1234567890123456", ride.fare || 0);
     }
 }
