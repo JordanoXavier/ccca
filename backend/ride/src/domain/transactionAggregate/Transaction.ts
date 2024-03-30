@@ -5,7 +5,7 @@ export default class Transaction {
     date: Date;
     status: string;
 
-    constructor (transactionId: string, rideId: string, amount: number, date: Date) {
+    constructor (rideId: string, amount: number, date: Date, transactionId?: string, ) {
         this.transactionId = transactionId || crypto.randomUUID();
         this.rideId = rideId;
         this.amount = amount;
