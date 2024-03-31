@@ -1,5 +1,5 @@
-import Account from "../accountAggregate/Account";
 import Status from "./Status";
+import Account from "../../../../account/src/domain/accountAggregate/Account";
 
 export default class Ride {
     rideId: string;

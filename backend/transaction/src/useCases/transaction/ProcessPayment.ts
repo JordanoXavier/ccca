@@ -1,5 +1,3 @@
-import AccountRepository from "../../infra/repositories/account/AccountRepository";
-import Account from "../../domain/accountAggregate/Account";
 import TransactionRepository from "../../infra/repositories/transaction/TransactionRepository";
 import Transaction from "../../domain/transactionAggregate/Transaction";
 

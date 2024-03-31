@@ -1,7 +1,7 @@
 import assert from "assert";
-import AccountRepositoryDatabase from "../src/infra/repositories/account/AccountRepositotyDatabase";
+import AccountRepositoryDatabase from "../../account/src/infra/repositories/account/AccountRepositotyDatabase";
 import RideRepositoryDatabase from "../src/infra/repositories/ride/RideRepositoryDatabase";
-import Signup from "../src/useCases/account/signup";
+import Signup from "../../account/src/useCases/account/signup";
 import AcceptRide from "../src/useCases/ride/AcceptRide";
 import GetRide from "../src/useCases/ride/getRide";
 import RequestRide from "../src/useCases/ride/requestRide";
@@ -9,7 +9,7 @@ import StartRide from "../src/useCases/ride/StartRide";
 import FinishRide from "../src/useCases/ride/FinishRide";
 import PositionRepositoryDatabase from "../src/infra/repositories/position/PositionRepositoryDatabase";
 import UpdatePosition from "../src/useCases/position/UpdatePosition";
-import TransactionRepositoryDatabase from "../src/infra/repositories/transaction/TransactionRepositoryDatabase";
+import TransactionRepositoryDatabase from "../../transaction/src/infra/repositories/transaction/TransactionRepositoryDatabase";
 
 let signup: Signup;
 let requestRide: RequestRide;
@@ -200,7 +200,7 @@ test("Não deve iniciar uma corrida que não esteja com status accepted", async 
     await expect(() => startRide.execute({ride_id: rideOutput.ride_id})).rejects.toThrow(new Error("ride is not accepted"));
 });
 
-test.only("Deve finalizar uma corrida", async function () {
+test("Deve finalizar uma corrida", async function () {
     const passengerOutput = await getPassenger();
 
     const rideInput = {

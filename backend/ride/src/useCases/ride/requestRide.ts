@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import RideRepository from "../../infra/repositories/ride/RideRepository";
-import AccountRepository from "../../infra/repositories/account/AccountRepository";
+import AccountRepository from "../../../../account/src/infra/repositories/account/AccountRepository";
 import Ride from "../../domain/rideAggregate/Ride";
 
 interface position {

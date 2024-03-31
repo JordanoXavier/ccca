@@ -1,8 +1,9 @@
 import DistanceCalculator from "../../domain/positionAggregate/DistanceCalculator";
 import PositionRepository from "../../infra/repositories/position/PositionRepository";
 import RideRepository from "../../infra/repositories/ride/RideRepository";
-import TransactionRepository from "../../infra/repositories/transaction/TransactionRepository";
-import ProcessPayment from "../transaction/ProcessPayment";
+import TransactionRepository from "../../../../transaction/src/infra/repositories/transaction/TransactionRepository";
+import ProcessPayment from "../../../../transaction/src/useCases/transaction/ProcessPayment";
+
 
 export default class FinishRide {
     constructor (private positionRepository: PositionRepository, private rideRepository: RideRepository, private transactionRepository: TransactionRepository) {
